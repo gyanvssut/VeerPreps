@@ -48,7 +48,7 @@ export default function Allnotes() {
       try {
         setLoading(true);
         const response = await axios.get<{ notes: Notes[] }>(
-          "https://api-zeta.vercel.app/api/notes/"
+          "https://veer-preps-api.vercel.app/api/notes/"
         );
         setNotes(response.data.notes);
       } catch (err) {

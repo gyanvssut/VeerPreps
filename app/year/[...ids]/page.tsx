@@ -25,9 +25,12 @@ export async function generateMetadata({
   }
 
   try {
-    const res = await fetch(`https://api-zeta.vercel.app/api/pyq/${subjectId}`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `https://veer-preps-api.vercel.app/api/pyq/${subjectId}`,
+      {
+        cache: "no-store",
+      },
+    );
     const data = await res.json();
     const pyq = data.pyq?.[0];
 
@@ -39,7 +42,10 @@ export async function generateMetadata({
     }
 
     const subjectName = pyq.subject.subjectname;
-    const branchName = pyq.subject.branchname === "common" ? "First Year" : pyq.subject.branchname;
+    const branchName =
+      pyq.subject.branchname === "common"
+        ? "First Year"
+        : pyq.subject.branchname;
 
     const title = `Download ${subjectName} PYQ and Lecture notes | ${branchName} - VSSUT Burla | iitkirba`;
 
@@ -77,7 +83,6 @@ export async function generateMetadata({
     };
   }
 }
-
 
 export default function Page({ params }: PageProps) {
   const branchId = params.ids[0];

@@ -33,11 +33,13 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     const notesid = params.pdfid[1];
     try {
       const res = await axios.get<{ note: any }>(
-        `https://api-zeta.vercel.app/api/notes/getone/${notesid}`
+        `https://veer-preps-api.vercel.app/api/notes/getone/${notesid}`,
       );
       const data = res.data.note;
       // Use data.thumbnail if available, else fallback
-      const thumbnailUrl = data.thumbnail ? data.thumbnail : defaultThumbnailUrl;
+      const thumbnailUrl = data.thumbnail
+        ? data.thumbnail
+        : defaultThumbnailUrl;
       return {
         title: `${data.notesname} Vssut Burla`,
         description: `View and download notes: ${data.notesname}. Curated for VSSUT students.`,
@@ -55,11 +57,13 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     const pyqid = params.pdfid;
     try {
       const res = await axios.get<any>(
-        `https://api-zeta.vercel.app/api/pyq/id/${pyqid}`
+        `https://veer-preps-api.vercel.app/api/pyq/id/${pyqid}`,
       );
       const data = res.data;
       // Use data.thumbnail if available, else fallback
-      const thumbnailUrl = data.thumbnail ? data.thumbnail : defaultThumbnailUrl;
+      const thumbnailUrl = data.thumbnail
+        ? data.thumbnail
+        : defaultThumbnailUrl;
       return {
         title: `${data.pyqname} Vssut Burla`,
         description: `Download Previous Year Question: ${data.pyqname}. Useful for VSSUT exam prep.`,
@@ -75,8 +79,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     }
   }
 }
-console.log("=============================================")
-
+console.log("=============================================");
 
 export default async function Page({ params }: Params) {
   const session = await auth();
@@ -87,10 +90,10 @@ export default async function Page({ params }: Params) {
 
     try {
       const response = await axios.get<{ note: Notes }>(
-        `https://api-zeta.vercel.app/api/notes/getone/${notesid}`
+        `https://veer-preps-api.vercel.app/api/notes/getone/${notesid}`,
       );
       const data = response.data.note;
-      console.log(data.link)
+      console.log(data.link);
       return (
         <PdfRenderer
           email={email}
@@ -112,7 +115,7 @@ export default async function Page({ params }: Params) {
 
     try {
       const response = await axios.get<Pyq>(
-        `https://api-zeta.vercel.app/api/pyq/id/${pdfid}`
+        `https://veer-preps-api.vercel.app/api/pyq/id/${pdfid}`,
       );
       const data = response.data;
 

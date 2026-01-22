@@ -8,15 +8,15 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Search, 
-  FileText, 
-  Download, 
-  ChevronLeft, 
+import {
+  Search,
+  FileText,
+  Download,
+  ChevronLeft,
   ChevronRight,
   Filter,
   BookOpen,
-  TrendingUp
+  TrendingUp,
 } from "lucide-react";
 import { motion, useScroll } from "framer-motion";
 import {
@@ -46,7 +46,7 @@ export default function AllPyqs() {
       try {
         setLoading(true);
         const response = await axios.get<{ allpyqs: Allpyqs[] }>(
-          "https://api-zeta.vercel.app/api/pyq/"
+          "https://veer-preps-api.vercel.app/api/pyq/",
         );
         setPyqs(response.data.allpyqs);
       } catch (err) {
@@ -61,7 +61,7 @@ export default function AllPyqs() {
 
   const filteredPyqs = useMemo(() => {
     return pyqs.filter((pyq) =>
-      pyq.pyqname.toLowerCase().includes(searchTerm.toLowerCase())
+      pyq.pyqname.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }, [pyqs, searchTerm]);
 
@@ -73,7 +73,7 @@ export default function AllPyqs() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSearch = (value: string) => {
@@ -97,7 +97,7 @@ export default function AllPyqs() {
         className="progress-bar"
         style={{ scaleX: scrollYProgress }}
       />
-      
+
       {/* Breadcrumb Navigation */}
       <div className="w-full py-4 px-4">
         <div className="max-w-7xl mx-auto">
@@ -114,7 +114,7 @@ export default function AllPyqs() {
           </Breadcrumb>
         </div>
       </div>
-      
+
       {/* Hero Section */}
       <div className="w-full py-12 px-4">
         <div className="max-w-7xl mx-auto">
@@ -126,8 +126,8 @@ export default function AllPyqs() {
               </h1>
             </div>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto max-sm:text-center">
-              Access a comprehensive collection of VSSUT Burla's previous year question papers. 
-              Find exactly what you need to ace your exams.
+              Access a comprehensive collection of VSSUT Burla's previous year
+              question papers. Find exactly what you need to ace your exams.
             </p>
           </div>
 
@@ -151,13 +151,21 @@ export default function AllPyqs() {
             <div className="flex gap-4">
               <Card className="flex-1 p-4 text-center bg-white/60 dark:bg-zinc-900/60 backdrop-blur-sm border-0 shadow-lg">
                 <BookOpen className="h-6 w-6 text-blue-600 mx-auto mb-2" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white">{pyqs.length}</h3>
-                <p className="text-xs text-gray-600 dark:text-gray-400">Total PYQs</p>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                  {pyqs.length}
+                </h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  Total PYQs
+                </p>
               </Card>
               <Card className="flex-1 p-4 text-center bg-white/60 dark:bg-zinc-900/60 backdrop-blur-sm border-0 shadow-lg">
                 <TrendingUp className="h-6 w-6 text-green-600 mx-auto mb-2" />
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white">{filteredPyqs.length}</h3>
-                <p className="text-xs text-gray-600 dark:text-gray-400">Found</p>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                  {filteredPyqs.length}
+                </h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  Found
+                </p>
               </Card>
             </div>
           </div>
@@ -183,7 +191,9 @@ export default function AllPyqs() {
               {/* Results info */}
               <div className="flex items-center justify-between mb-4">
                 <p className="text-gray-600 dark:text-gray-400">
-                  Showing {startIndex + 1}-{Math.min(endIndex, filteredPyqs.length)} of {filteredPyqs.length} PYQs
+                  Showing {startIndex + 1}-
+                  {Math.min(endIndex, filteredPyqs.length)} of{" "}
+                  {filteredPyqs.length} PYQs
                 </p>
                 {searchTerm && (
                   <Badge variant="secondary" className="px-3 py-1">
@@ -195,7 +205,7 @@ export default function AllPyqs() {
               {/* PYQs Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                 {currentPyqs.map((pyq) => (
-                  <Card 
+                  <Card
                     key={pyq.pyq_id}
                     className="group p-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                   >
@@ -226,12 +236,16 @@ export default function AllPyqs() {
                   {/* Responsive page numbers: show all on sm+, only 2-3 on mobile */}
                   <div className="flex flex-row items-center gap-1">
                     {Array.from({ length: totalPages }, (_, i) => i + 1)
-                      .filter(page => {
-                        if (typeof window !== 'undefined' && window.innerWidth < 640) {
+                      .filter((page) => {
+                        if (
+                          typeof window !== "undefined" &&
+                          window.innerWidth < 640
+                        ) {
                           // Show only 2-3 page numbers around currentPage on mobile
                           if (totalPages <= 3) return true;
                           if (currentPage === 1) return page <= 3;
-                          if (currentPage === totalPages) return page >= totalPages - 2;
+                          if (currentPage === totalPages)
+                            return page >= totalPages - 2;
                           return Math.abs(page - currentPage) <= 1;
                         }
                         return true;
@@ -271,14 +285,13 @@ export default function AllPyqs() {
                   {searchTerm ? "No PYQs Found" : "No PYQs Available"}
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400">
-                  {searchTerm 
+                  {searchTerm
                     ? `No PYQs match "${searchTerm}". Try a different search term.`
-                    : "PYQs are being uploaded. Check back soon!"
-                  }
+                    : "PYQs are being uploaded. Check back soon!"}
                 </p>
                 {searchTerm && (
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     onClick={() => handleSearch("")}
                     className="mt-4"
                   >
@@ -300,12 +313,16 @@ export default function AllPyqs() {
           <p className="text-lg text-gray-600 dark:text-gray-300">
             Help us grow our collection by contributing your PYQs
           </p>
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
             asChild
           >
-            <a href="https://forms.gle/EYBP1xcCxYqsdeVK6" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://forms.gle/EYBP1xcCxYqsdeVK6"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Download className="mr-2 h-5 w-5" />
               Upload Your PYQs
             </a>
