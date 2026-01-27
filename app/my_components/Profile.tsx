@@ -20,7 +20,7 @@ export default function Profile() {
   const { data: session } = useSession();
   const name = session?.user?.name;
   const avatarurl = session?.user?.image;
-  const defaultavatar = "https://res.cloudinary.com/dlm8mel1x/image/upload/v1739933978/kirba/mdkowbqyq0zvlnxbtz9x.png";
+  const defaultavatar = "/loader/default-avatar-profile-social-media-260nw-1920331226.webp";
 
   return (
     <DropdownMenu>

@@ -203,7 +203,7 @@ export default function Allnotes() {
                   >
                     <Pdf
                 notes={true}
-                pyqid={note.notes_id}
+                pyqid={String(note.notes_id)}
                 pyqname={note.notesname}
                       links={note.link}
                     />

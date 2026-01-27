@@ -211,7 +211,7 @@ export default function AllPyqs() {
                   >
                     <Pdf
                       notes={false}
-                      pyqid={pyq.pyq_id}
+                      pyqid={String(pyq.pyq_id)}
                       pyqname={pyq.pyqname}
                       links={""}
                     />

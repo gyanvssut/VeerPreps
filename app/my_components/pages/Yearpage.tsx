@@ -14,6 +14,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { yearResponse } from "@/utils/types";
 
 interface year {
   year_id: number;
@@ -28,11 +29,13 @@ export const metadata: Metadata = {
 
 export default async function Yearpage({ branchId }: { branchId: number }) {
   try {
-    const years = await axios.get<{ requiredyear: year[] }>(
-      `https://veer-preps-api.vercel.app/api/year/${branchId}`,
-    );
+    const years = await axios.get<yearResponse>(`https://veer-preps-api.vercel.app/api/year/${branchId}`)
 
-    const requiredyears = years.data.requiredyear;
+
+    const requiredyears = years.data.years;
+    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+    console.log(branchId)
+    console.log(requiredyears)
 
     return (
       <div className="min-h-screen w-full bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 pt-20 flex justify-center items-start">
@@ -46,7 +49,7 @@ export default async function Yearpage({ branchId }: { branchId: number }) {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Year {branchId}</BreadcrumbPage>
+                  <BreadcrumbPage>Year </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

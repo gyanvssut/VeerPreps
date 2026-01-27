@@ -63,7 +63,7 @@ export default async function Page() {
 
   try {
     const savedpdfs = await getSavedPdfs(user.email as string);
-    const defaultavatar = "https://res.cloudinary.com/dlm8mel1x/image/upload/v1739933978/kirba/mdkowbqyq0zvlnxbtz9x.png";
+    const defaultavatar = "/loader/default-avatar-profile-social-media-260nw-1920331226.webp";
 
     return (
       <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 pt-20">
@@ -184,7 +184,7 @@ export default async function Page() {
                       <Pdf
                         pyqname={savedpdf.pdfname}
                         notes={savedpdf.notes}
-                        pyqid={savedpdf.pdfid}
+                        pyqid={String(savedpdf.pdfid)}
                         links=""
                       />
                       <Badge 

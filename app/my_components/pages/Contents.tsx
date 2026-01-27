@@ -13,11 +13,10 @@ import {
   BookOpen,
   Play,
   Upload,
-  Download,
   ExternalLink,
   AlertCircle,
 } from "lucide-react";
-import { motion, useScroll } from "framer-motion";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,80 +25,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { materialResponse } from "@/utils/types";
 
-interface Subject {
-  subject_id: number;
-  yearId: number;
-  subjectname: string;
-  branchname: string;
-  iscommon: boolean;
-  branchid: number;
-}
-
-interface Contents {
-  links: string;
-  subjectId: number;
-  pyqtype: string;
-  pyq_id: number;
-  pyqname: string;
-  subject: Subject;
-}
-
-interface Notes {
-  notes_id: number;
-  subjectId: number;
-  link: string;
-  notesname: string;
-}
-
-interface VideoLinks {
-  subjectId: number;
-  link: string;
-  videoname: string;
-}
-
-interface PageProps {
-  ids: string[];
-}
-
-export async function generateMetadata(props: Contents): Promise<Metadata> {
-  const subjectName = props.subject.subjectname;
-  const branchName =
-    props.subject.branchname === "common"
-      ? "First Year"
-      : props.subject.branchname;
-
-  const title = `Download Previous Year Questions for ${subjectName} - ${branchName} | VeerPreps`;
-  const description = `Get free access to previous year question papers for ${subjectName} (${branchName}) including mid-sem, end-sem, back, and supplementary exams.`;
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      url: "https://www.veerpreps.com",
-      type: "website",
-      siteName: "VeerPreps",
-      images: [
-        {
-          url: "https://www.veerpreps.com/og/og_image.png",
-          width: 1200,
-          height: 630,
-          alt: "VeerPreps - VSSUT Question Papers & Notes",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: ["https://www.veerpreps.com/og/og_image.png"],
-    },
-  };
-}
-
-export default async function Contents({ ids }: PageProps) {
+export default async function Contents({ ids }: { ids: string[] }) {
   const subjectid = ids.length > 4 ? ids[4] : null;
   if (!subjectid) {
     return (
@@ -118,36 +46,15 @@ export default async function Contents({ ids }: PageProps) {
       </div>
     );
   }
+  const res = await axios.get<materialResponse>(
+    `https://veer-preps-api.vercel.app/api/subject/material/${subjectid}`,
+  );
+  const materialData = res.data;
+  const pyqs = materialData.materials.pyqs;
+  const notes = materialData.materials.notes;
+  const videolinks = materialData.materials.notes;
 
   try {
-    const [notesResponse, pyqResponse, videolinksResponse] = await Promise.all([
-      axios
-        .get<{
-          notes: Notes[];
-        }>(`https://veer-preps-api.vercel.app/api/notes/${subjectid}`)
-        .catch(() => ({ data: { notes: [] } })),
-      axios
-        .get<{
-          pyq: Contents[];
-        }>(`https://veer-preps-api.vercel.app/api/pyq/${subjectid}`)
-        .catch(() => ({ data: { pyq: [] } })),
-      axios
-        .get<{
-          videolinks: VideoLinks[];
-        }>(`https://veer-preps-api.vercel.app/api/videos/${subjectid}`)
-        .catch(() => ({ data: { videolinks: [] } })),
-    ]);
-
-    const notes: Notes[] = notesResponse?.data?.notes || [];
-    const pyqs: Contents[] = pyqResponse?.data?.pyq || [];
-    const videolinks: VideoLinks[] = videolinksResponse?.data?.videolinks || [];
-
-    if (notes.length === 0 && pyqs.length === 0 && videolinks.length === 0) {
-      return <NothingFound />;
-    }
-
-    generateMetadata(pyqs[0]);
-
     return (
       <div className="min-h-screen w-full bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 pt-20">
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -173,7 +80,7 @@ export default async function Contents({ ids }: PageProps) {
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <BreadcrumbPage>
-                    {pyqs[0]?.subject?.subjectname || "Subject"}
+                    {materialData.materials.subjectname || "Subject"}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -183,12 +90,12 @@ export default async function Contents({ ids }: PageProps) {
           {/* Subject Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              {pyqs[0]?.subject?.subjectname || "Subject"}
+              {materialData.materials.subjectname || "Subject"}
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300">
-              {pyqs[0]?.subject?.branchname === "common"
+              {materialData.materials.branchname === "common"
                 ? "First Year Common"
-                : pyqs[0]?.subject?.branchname}
+                : materialData.materials.branchname}
             </p>
           </div>
 
@@ -245,9 +152,9 @@ export default async function Contents({ ids }: PageProps) {
               </Link>
             </div>
 
-            {pyqs.length > 0 ? (
+            {materialData.materials.pyqs.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {pyqs.map((pyq) => (
+                {materialData.materials.pyqs.map((pyq) => (
                   <Card
                     key={pyq.pyq_id}
                     className="p-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
@@ -307,9 +214,9 @@ export default async function Contents({ ids }: PageProps) {
               </Link>
             </div>
 
-            {notes.length > 0 ? (
+            {materialData.materials.notes.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {notes.map((note) => (
+                {materialData.materials.notes.map((note) => (
                   <Card
                     key={note.notes_id}
                     className="p-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
@@ -374,9 +281,9 @@ export default async function Contents({ ids }: PageProps) {
               </div>
             </div>
 
-            {videolinks.length > 0 ? (
+            {materialData.materials.videos.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {videolinks.map((videolink) => (
+                {materialData.materials.videos.map((videolink) => (
                   <Card
                     key={videolink.subjectId}
                     className="p-6 text-center bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"

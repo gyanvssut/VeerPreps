@@ -11,7 +11,7 @@ export default function Pdf({
   pyqname: string;
   links: string;
   notes: boolean;
-  pyqid: number;
+  pyqid: string;
 }) {
   return (
     <Link
