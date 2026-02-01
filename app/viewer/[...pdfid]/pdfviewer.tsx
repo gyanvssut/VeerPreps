@@ -179,11 +179,13 @@ export default function PdfRenderer({
   };
 
   const handleDownload = () => {
-    if (!email) {
-      signinfirst();
-    } else {
-      window.open(links, "_blank");
-    }
+    // if (!email) {
+    //   signinfirst();
+    // } else {
+    //   window.open(links, "_blank");
+    // }
+
+    window.open(links, "_blank");
   };
 
   const { scrollYProgress } = useScroll();
