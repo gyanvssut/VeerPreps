@@ -19,7 +19,7 @@ export async function generateMetadata({
   const subjectId = params.ids[4];
   if (!subjectId) {
     return {
-      title: "IIT KIRBA | VEERPREPS",
+      title: "VEERPREPS",
       description: "The requested subject does not exist.",
     };
   }
@@ -36,7 +36,7 @@ export async function generateMetadata({
 
     if (!pyq) {
       return {
-        title: "PYQs Not Found | iitkirba",
+        title: "PYQs Not Found ",
         description: "No previous year question papers found for this subject.",
       };
     }
@@ -58,14 +58,14 @@ export async function generateMetadata({
         title,
         description,
         url: `https://www.iitkirba.xyz/content/${params.ids.join("/")}`,
-        siteName: "iitkirba",
+        siteName: "VEERPREPS",
         type: "website",
         images: [
           {
             url: "https://www.iitkirba.xyz/og/og_image.png",
             width: 1200,
             height: 630,
-            alt: "iitkirba - VSSUT Question Papers & Notes",
+            alt: "VEERPREPS - VSSUT Question Papers & Notes",
           },
         ],
       },

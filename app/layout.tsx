@@ -1,5 +1,6 @@
 import "./globals.css";
 import Navbar from "@/app/my_components/Navbar";
+import SiteBanner from "@/app/my_components/SiteBanner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
@@ -16,7 +17,7 @@ import GoogleAnalyticsClient from "./my_components/Analytics/GoogleAnalyticsClie
 import { ReactLenis } from "@/utils/lenis/lenis";
 
 export const metadata = {
-  title: "IIT KIRBA | VeerPreps",
+  title: "VeerPreps",
   description:
     "Get instant access to VSSUT Burla's previous year question papers and handwritten notes — including mid-sem, end-sem, back, and supplementary papers. Log in to download, save, and study smarter for free on iit kirba",
   keywords: [
@@ -55,10 +56,10 @@ export const metadata = {
     title: "IIT KIRBA VSSUT Burla Question Papers & Notes",
     description:
       "Download VSSUT Burla PYQs & notes , mid sem, end sem, back, and supply papers. 100% free. Start preparing smarter today at iitkirba.xyz!",
-    url: "https://www.iitkirba.xyz",
+    url: "https://www.veerpreps.com/",
     images: [
       {
-        url: "https://www.iitkirba.xyz/og/og_image.png",
+        url: "https://www.veerpreps.com/og/og_image.png",
         width: 1200,
         height: 630,
         alt: "iitkirba",
@@ -71,8 +72,8 @@ export const metadata = {
     title: "VSSUT Burla Question Papers & Notes",
     description:
       "Access VSSUT Burla's previous year question papers and notes. Download mid-semester, end-semester, back, and supplementary papers for free.",
-    images: ["https://www.iitkirba.xyz/og/og_image.png"],
-    creator:"Veerpreps"
+    images: ["https://www.veerpreps.com/og/og_image.png"],
+    creator: "Veerpreps",
   },
 };
 
@@ -99,6 +100,7 @@ export default async function RootLayout({
               disableTransitionOnChange
             >
               <Navbar />
+              <SiteBanner />
               {children}
               <Analytics />
               <Footer />
