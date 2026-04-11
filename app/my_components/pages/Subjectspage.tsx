@@ -45,13 +45,13 @@ export default async function Subjects({ ids }: pageprops) {
       yearid === "40"
     ) {
       const response = await axios.get<{ subjects: Subject[] }>(
-        `https://veer-preps-api.vercel.app/api/subject/common`,
+        `https://veer-preps-api-psi.vercel.app/api/subject/common`,
       );
       data = response.data.subjects;
     } else {
       try {
         const response = await axios.get<{ subjects: Subject[] }>(
-          `https://veer-preps-api.vercel.app/api/subject/${branchId}/${yearid}`,
+          `https://veer-preps-api-psi.vercel.app/api/subject/${branchId}/${yearid}`,
         );
         data = response.data.subjects;
       } catch (error) {}

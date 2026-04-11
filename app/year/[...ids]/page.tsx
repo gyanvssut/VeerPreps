@@ -26,7 +26,7 @@ export async function generateMetadata({
 
   try {
     const res = await fetch(
-      `https://veer-preps-api.vercel.app/api/pyq/${subjectId}`,
+      `https://veer-preps-api-psi.vercel.app/api/pyq/${subjectId}`,
       {
         cache: "no-store",
       },

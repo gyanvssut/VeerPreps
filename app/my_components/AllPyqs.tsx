@@ -46,7 +46,7 @@ export default function AllPyqs() {
       try {
         setLoading(true);
         const response = await axios.get<{ allpyqs: Allpyqs[] }>(
-          "https://veer-preps-api.vercel.app/api/pyq/",
+          "https://veer-preps-api-psi.vercel.app/api/pyq/",
         );
         setPyqs(response.data.allpyqs);
       } catch (err) {
