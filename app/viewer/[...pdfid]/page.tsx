@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     const notesid = params.pdfid[1];
     try {
       const res = await axios.get<{ note: any }>(
-        `https://veer-preps-api-psi.vercel.app/api/notes/getone/${notesid}`,
+        `https://api.veerpreps.com/api/notes/getone/${notesid}`,
       );
       const data = res.data.note;
       // Use data.thumbnail if available, else fallback
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     const pyqid = params.pdfid;
     try {
       const res = await axios.get<any>(
-        `https://veer-preps-api-psi.vercel.app/api/pyq/id/${pyqid}`,
+        `https://api.veerpreps.com/api/pyq/id/${pyqid}`,
       );
       const data = res.data;
       // Use data.thumbnail if available, else fallback
@@ -90,7 +90,7 @@ export default async function Page({ params }: Params) {
 
     try {
       const response = await axios.get<{ note: Notes }>(
-        `https://veer-preps-api-psi.vercel.app/api/notes/getone/${notesid}`,
+        `https://api.veerpreps.com/api/notes/getone/${notesid}`,
       );
       const data = response.data.note;
       console.log(data.link);
@@ -115,7 +115,7 @@ export default async function Page({ params }: Params) {
 
     try {
       const response = await axios.get<Pyq>(
-        `https://veer-preps-api-psi.vercel.app/api/pyq/id/${pdfid}`,
+        `https://api.veerpreps.com/api/pyq/id/${pdfid}`,
       );
       const data = response.data;
 

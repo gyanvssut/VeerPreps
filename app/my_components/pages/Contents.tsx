@@ -47,7 +47,7 @@ export default async function Contents({ ids }: { ids: string[] }) {
     );
   }
   const res = await axios.get<materialResponse>(
-    `https://veer-preps-api-psi.vercel.app/api/subject/material/${subjectid}`,
+    `https://api.veerpreps.com/api/subject/material/${subjectid}`,
   );
   const materialData = res.data;
   const pyqs = materialData.materials.pyqs;

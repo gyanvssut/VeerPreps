@@ -36,7 +36,7 @@ export default function Branches({ session }: BranchProps) {
         setLoading(true);
         setError(null);
         const response = await axios.get<{ branches: Branch[] }>(
-          "https://veer-preps-api-psi.vercel.app/api/branch/",
+          "https://api.veerpreps.com/api/branch/",
         );
         setBranches(response.data.branches);
       } catch (error) {

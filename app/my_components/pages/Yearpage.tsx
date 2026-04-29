@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
 export default async function Yearpage({ branchId }: { branchId: number }) {
   try {
-    const years = await axios.get<yearResponse>(`https://veer-preps-api-psi.vercel.app/api/year/${branchId}`)
+    const years = await axios.get<yearResponse>(`https://api.veerpreps.com/api/year/${branchId}`)
 
 
     const requiredyears = years.data.years;
